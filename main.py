@@ -24,7 +24,7 @@ def find_post(id):
 
 @app.get("/")
 async def root():
-    return {"message": "This is a Python API"}
+    return my_post
 
 @app.get("/posts")
 def get_posts():
@@ -44,3 +44,29 @@ def get_post(id: int, response: Response):
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not Found")
     return {"post_detail": post}
+
+
+@app.delete("/post/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_post(id: int, response: Response):
+    post_index = find_post_index(id)
+    if not post_index:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post Not Found")
+    my_post.pop(post_index)
+    print(my_post)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+def find_post_index(id):
+    for i, p in enumerate(my_post):
+        if p["id"] == id:
+            return i
+    return None
+
+@app.put("/post/{id}", status_code=status.HTTP_206_PARTIAL_CONTENT)
+def update_post(id: int, post: Post):
+    post_index = find_post_index(id)
+    if not post_index:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post Not Found")
+    post_dict = post.dict()
+    post_dict["id"] = id
+    my_post[post_index] = post_dict
+    return {"Update Post": my_post[post_index]}

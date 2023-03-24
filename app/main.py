@@ -28,7 +28,7 @@ async def root():
 
 @app.get("/posts")
 def get_posts():
-    return {"data": "Posts"}
+    return {"data": my_post}
 
 @app.post("/post", status_code=status.HTTP_201_CREATED)
 def create_post(post: Post):
@@ -64,7 +64,7 @@ def find_post_index(id):
 @app.put("/post/{id}", status_code=status.HTTP_206_PARTIAL_CONTENT)
 def update_post(id: int, post: Post):
     post_index = find_post_index(id)
-    if not post_index:
+    if post_index == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post Not Found")
     post_dict = post.dict()
     post_dict["id"] = id

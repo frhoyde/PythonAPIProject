@@ -21,8 +21,9 @@ class Post(PostBase):
 class UserBase(BaseModel):
     email: EmailStr
 
-class UserCreate(UserBase):
+class UserCredentials(UserBase):
     password: str
+
 
 class User(UserBase):
     id: int

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
+from typing import Optional
 
 class PostBase(BaseModel):
     title: str
@@ -30,3 +31,10 @@ class User(UserBase):
     created_at: datetime
     class Config:
         orm_mode = True
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    id: Optional[str]

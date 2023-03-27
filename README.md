@@ -1,6 +1,6 @@
 # PythonAPIProject
 
-A is a Python Backend Only blogging API.
+A Python Backend Only blogging API.
 Created with FastAPI.
 
 ## Installation
